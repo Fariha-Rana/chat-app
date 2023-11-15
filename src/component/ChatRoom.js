@@ -45,7 +45,7 @@ export default function ChatComponent() {
     };
   
     _loadMessages();
-  }, [message, messages]);
+  }, [message]);
 
   
 
@@ -60,7 +60,7 @@ export default function ChatComponent() {
     <Box
       p={4}
       position="relative"
-      height="90vh"
+      height="74vh"
       overflowY="auto"
       boxSizing="border-box"
     >
