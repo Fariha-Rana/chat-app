@@ -85,7 +85,7 @@ export default function ChatComponent() {
                 </Text>
               </Flex>
               <Text textAlign={message.user === user?.name ? "right" : "left"}  wordWrap="break-word"
-  maxWidth="100%">
+  maxWidth="30%">
                 {message.message}
               </Text>
             </Box>
