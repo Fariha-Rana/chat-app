@@ -56,6 +56,7 @@ export default function ChatComponent() {
       position="relative"
       height="74vh"
       overflowY="auto"
+      maxW="100vw"
       // boxSizing="border-box"
     >
       {user && (
@@ -71,7 +72,6 @@ export default function ChatComponent() {
               alignSelf={
                 message.user === user?.name ? "flex-end" : "flex-start"
               }
-              boxSizing="border-box"
             >
             
               <Flex flexDirection="column">
