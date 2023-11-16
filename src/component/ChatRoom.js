@@ -77,7 +77,7 @@ export default function ChatComponent() {
                 <Text
                   textAlign={message.user === user?.name ? "right" : "left"}
                   fontSize={"x-small"}
-                  maxW={"20%"}
+                  maxW={"80vw"}
                 >
                   {message.user === user?.name ? (
                     <b className="">You</b>
