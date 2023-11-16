@@ -66,7 +66,7 @@ export default function ChatComponent() {
           direction="column"
           overflowY="auto"
           margin={{ base: "10px", md: "0" }}
-          maxW={"max-content"}
+          maxW={"100vw"}
         >
           {messages.map((message) => (
             <Box
@@ -76,8 +76,7 @@ export default function ChatComponent() {
                 message.user === user?.name ? "flex-end" : "flex-start"
               }
             >
-              <Flex flexDirection="column" justifyContent={message.user === user?.name ? "flex-end" : "flex-start"}
->
+              <Flex flexDirection="column">
                 <Text
                   textAlign={message.user === user?.name ? "right" : "left"}
                   fontSize={"x-small"}
