@@ -73,11 +73,11 @@ export default function ChatComponent() {
               }
             >
             
-              <Flex flexDirection="column"  maxWidth="70%"
-  alignSelf={message.user === user?.name ? "flex-end" : "flex-start"} >
+              <Flex flexDirection="column">
                 <Text
                   textAlign={message.user === user?.name ? "right" : "left"}
                   fontSize={"x-small"}
+                  maxW={"20%"}
                 >
                   {message.user === user?.name ? (
                     <b className="">You</b>
