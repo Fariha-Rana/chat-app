@@ -64,7 +64,7 @@ export default function ChatComponent() {
           overflowY="auto"
           margin={{ base: "10px", md: "0" }}
         >
-          {messages.reverse().map((message) => (
+          {messages.map((message) => (
             <Box
               key={message.$id}
               p={2}
