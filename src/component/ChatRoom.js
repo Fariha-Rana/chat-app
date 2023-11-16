@@ -1,25 +1,17 @@
 "use client";
-import {
-  FormControl,
-  Input,
-  Button,
-  Box,
-  Flex,
-  Text,
-} from "@chakra-ui/react";
+import { FormControl, Input, Button, Box, Flex, Text } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import chatService from "@/appwrite/chatService";
 import userAuth from "@/appwrite/authentication";
 import { appwrite } from "@/appwrite/config";
-require("dotenv").config()
+require("dotenv").config();
 
-const databaseId = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID
-const collectionId = process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID
+const databaseId = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID;
+const collectionId = process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID;
 export default function ChatComponent() {
   const [message, setMessage] = useState("");
   const [user, setUser] = useState(null);
   const [messages, setMessages] = useState([]);
-
 
   useEffect(() => {
     (async () => {
@@ -32,19 +24,24 @@ export default function ChatComponent() {
   }, []);
 
   useEffect(() => {
+    const unsubscribe = appwrite.subscribe(
+      `databases.${databaseId}.collections.${collectionId}.documents`,
+      (response) => {
+        if (
+          response.events.includes(
+            "databases.*.collections.*.documents.*.create"
+          )
+        ) {
+          console.log("A MESSAGE WAS CREATED");
+          setMessages((prevState) => [...prevState, response.payload]);
+        }
+      }
+    );
 
-   const unsubscribe = appwrite.subscribe(
-    `databases.${databaseId}.collections.${collectionId}.documents`,
-    (response) => {
-    if (response.events.includes("databases.*.collections.*.documents.*.create")) {
-    console.log("A MESSAGE WAS CREATED");
-    setMessages((prevState) => [...prevState, response.payload]);
-    }});
-
-   return () => {
-    unsubscribe();
+    return () => {
+      unsubscribe();
     };
-    }, []);
+  }, []);
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -67,7 +64,7 @@ export default function ChatComponent() {
           overflowY="auto"
           margin={{ base: "10px", md: "0" }}
         >
-          {messages.map((message) => (
+          {messages.reverse().map((message) => (
             <Box
               key={message.$id}
               p={2}
@@ -75,17 +72,22 @@ export default function ChatComponent() {
                 message.user === user?.name ? "flex-end" : "flex-start"
               }
             >
+            
               <Flex flexDirection="column">
                 <Text
                   textAlign={message.user === user?.name ? "right" : "left"}
                   fontSize={"x-small"}
-                  maxW={"50vw"}
                 >
-                  {message.user === user?.name ? <b className="">You</b>  : <b> {message.user}</b>} {"  "}
+                  {message.user === user?.name ? (
+                    <b className="">You</b>
+                  ) : (
+                    <b> {message.user}</b>
+                  )}{" "}
+                  {"  "}
                   {new Date(message.$createdAt).toLocaleString()}
                 </Text>
               </Flex>
-              <Text textAlign={message.user === user?.name ? "right" : "left"}  fontSize={"sm"} wordWrap="break-word">
+              <Text textAlign={message.user === user?.name ? "right" : "left"}>
                 {message.message}
               </Text>
             </Box>
