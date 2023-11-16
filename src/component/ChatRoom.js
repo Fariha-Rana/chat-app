@@ -56,7 +56,7 @@ export default function ChatComponent() {
       position="relative"
       height="74vh"
       overflowY="auto"
-      boxSizing="border-box"
+      // boxSizing="border-box"
     >
       {user && (
         <Flex
