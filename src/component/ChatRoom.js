@@ -66,7 +66,7 @@ export default function ChatComponent() {
           direction="column"
           overflowY="auto"
           margin={{ base: "10px", md: "0" }}
-          maxW={"100vw"}
+          maxW={"50vw"}
         >
           {messages.map((message) => (
             <Box
@@ -80,7 +80,6 @@ export default function ChatComponent() {
                 <Text
                   textAlign={message.user === user?.name ? "right" : "left"}
                   fontSize={"x-small"}
-                  maxW='50%'
                 >
                   {message.user === user?.name ? <b className="">You</b>  : <b> {message.user}</b>} {"  "}
                   {new Date(message.$createdAt).toLocaleString()}
