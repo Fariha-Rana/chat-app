@@ -75,7 +75,8 @@ export default function ChatComponent() {
                 message.user === user?.name ? "flex-end" : "flex-start"
               }
             >
-              <Flex flexDirection="column">
+              <Flex flexDirection="column" justifyContent={message.user === user?.name ? "flex-end" : "flex-start"}
+>
                 <Text
                   textAlign={message.user === user?.name ? "right" : "left"}
                   fontSize={"x-small"}
@@ -85,7 +86,7 @@ export default function ChatComponent() {
                 </Text>
               </Flex>
               <Text textAlign={message.user === user?.name ? "right" : "left"}  fontSize={"sm"} wordWrap="break-word"
-  maxWidth="50%">
+  maxWidth="40%">
                 {message.message}
               </Text>
             </Box>
