@@ -58,6 +58,7 @@ export default function ChatComponent() {
       p={4}
       position="relative"
       height="74vh"
+      w='100vw'
       overflowY="auto"
       boxSizing="border-box"
     >
