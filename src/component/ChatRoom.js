@@ -56,21 +56,24 @@ export default function ChatComponent() {
       position="relative"
       height="74vh"
       overflowY="auto"
-      maxW="100vw"
-      // boxSizing="border-box"
+      // maxW="100vw"
+      boxSizing="border-box"
     >
-    {user && (
+   {user && (
         <>
           {messages.map((message) => (
             <Flex
               key={message.$id}
-              p={2}
+              p={4}
               alignSelf={
                 message.user === user?.name ? "flex-end" : "flex-start"
               }
               direction="column"
-          overflowY="auto"
-          margin={{ base: "10px", md: "0" }}>
+              justifySelf={"center"}
+             overflowY="auto"
+              margin={{ base: "10px", md: "0" }}
+              mx={{lg: "10"}}>
+              
               <Flex flexDirection="column">
                 <Text
                   textAlign={message.user === user?.name ? "right" : "left"}
@@ -85,9 +88,13 @@ export default function ChatComponent() {
                   {new Date(message.$createdAt).toLocaleString()}
                 </Text>
               </Flex>
+              <Box maxWidth={"72"}  alignSelf={
+                message.user === user?.name ? "flex-end" : "flex-start"
+              }>
               <Text textAlign={message.user === user?.name ? "right" : "left"}>
                 {message.message}
               </Text>
+              </Box>
         </Flex>
           ))}
         </>
