@@ -71,13 +71,13 @@ export default function ChatComponent() {
               alignSelf={
                 message.user === user?.name ? "flex-end" : "flex-start"
               }
+              boxSizing="border-box"
             >
             
               <Flex flexDirection="column">
                 <Text
                   textAlign={message.user === user?.name ? "right" : "left"}
                   fontSize={"x-small"}
-                  maxW={"80vw"}
                 >
                   {message.user === user?.name ? (
                     <b className="">You</b>
@@ -88,7 +88,7 @@ export default function ChatComponent() {
                   {new Date(message.$createdAt).toLocaleString()}
                 </Text>
               </Flex>
-              <Text textAlign={message.user === user?.name ? "right" : "left"} maxW="50%">
+              <Text textAlign={message.user === user?.name ? "right" : "left"} maxW="10%" maxH='auto'>
                 {message.message}
               </Text>
             </Box>
