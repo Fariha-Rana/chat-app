@@ -32,6 +32,7 @@ export default function ChatComponent() {
   }, []);
 
   useEffect(() => {
+<<<<<<< HEAD
    const unsubscribe = appwrite.subscribe(
     `databases.${databaseId}.collections.${collectionId}.documents`,
     (response) => {
@@ -39,6 +40,32 @@ export default function ChatComponent() {
     console.log("A MESSAGE WAS CREATED");
     setMessages((prevState) => [...prevState, response.payload]);
     }});
+=======
+    const _loadMessages = async () => {
+      await chatService.loadMessages();
+      const initialMessages = await chatService.getMessages();
+      setMessages(initialMessages);
+  
+      const chatSubscription = appwrite.subscribe(
+        `databases.[${process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID}].collections.[${process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID}].documents`,
+        (documents) => {
+          const newMessages = documents.filter(
+            (doc) => !messages.some((message) => message.$id === doc.$id)
+          );
+          if (newMessages.length > 0) {
+            setMessages((prevMessages) => [...prevMessages, ...newMessages]);
+          }
+        }
+      );
+  
+      return () => {
+        chatSubscription.unsubscribe();
+      };
+    };
+  
+    _loadMessages();
+  }, [message]);
+>>>>>>> c0e8f85f90a411860234dfd5a4f2c37de8fc5ab2
 
    return () => {
     unsubscribe();
