@@ -84,7 +84,8 @@ export default function ChatComponent() {
                   {new Date(message.$createdAt).toLocaleString()}
                 </Text>
               </Flex>
-              <Text textAlign={message.user === user?.name ? "right" : "left"}>
+              <Text textAlign={message.user === user?.name ? "right" : "left"}  wordWrap="break-word"
+  maxWidth="100%">
                 {message.message}
               </Text>
             </Box>
