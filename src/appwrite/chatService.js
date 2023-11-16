@@ -1,6 +1,6 @@
-import { database as appwrite} from './config';
+import {database} from './config';
 import  userAuth from './authentication';
-import { ID, Permission, Role} from 'appwrite';
+import { ID, Permission, Role, Query} from 'appwrite';
 require("dotenv").config()
 
 class ChatService {
@@ -14,23 +14,45 @@ class ChatService {
 
   async loadMessages() {
     try {
-      const response = await appwrite.listDocuments(
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
-        process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID,
-        [],
-        100,
-        0,
-        undefined,
-        undefined,
-        [],
-        ['ASC']
-      );
-       if(response.documents.length != 0) this.setMessages(response.documents);
-       else this.setMessages(['no messages available'])
+        let response;
+        let allDocuments = [];
+
+        do {
+            response = await database.listDocuments(
+                process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+                process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID,
+                [
+                    Query.limit(100), 
+                ]
+            );
+
+            if (response.documents.length > 0) {
+                allDocuments = allDocuments.concat(response.documents);
+
+                const lastId = response.documents[response.documents.length - 1].$id;
+
+                response = await database.listDocuments(
+                    process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+                    process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID,
+                    [
+                        Query.limit(100),
+                        Query.cursorAfter(lastId),
+                    ]
+                );
+            }
+        } while (response.documents.length > 0);
+
+        if (allDocuments.length !== 0) {
+            this.setMessages(allDocuments);
+        } else {
+            this.setMessages(['no messages available']);
+        }
+
+        console.log(allDocuments);
     } catch (error) {
-      console.error(error);
+        console.error(error);
     }
-  }
+}
 
   async sendMessage(message) {
     try {
@@ -38,7 +60,6 @@ class ChatService {
       const data = {
         user: user.name,
         message,
-        date: new Date().toLocaleString()
       };
   
       const permissions = [];
@@ -47,7 +68,7 @@ class ChatService {
         permissions.push(Permission.write(Role.users()));
       }
   
-      const createdDocument = await appwrite.createDocument(
+      const createdDocument = await database.createDocument(
         process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
         process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID,
         ID.unique(),

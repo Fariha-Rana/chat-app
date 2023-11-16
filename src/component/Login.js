@@ -7,17 +7,21 @@ import { PiChatTeardropDots } from "react-icons/pi";
 
 export default function LoginComponent() {
   const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { setAuthStatus } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     if (name) {
       try {
+        setIsLoading(true);
         let islogin = await userAuth.isLoggedIn();
         if (!islogin) islogin = await userAuth._createAnonymousSession(name);
         if (islogin) setAuthStatus(true);
       } catch (error) {
         console.error(error);
+      }finally{
+        setIsLoading(false)
       }
     }
   };
@@ -49,7 +53,7 @@ export default function LoginComponent() {
           onClick={handleLogin}
           variant={"outline"}
         >
-          Start Chatting
+         {isLoading ? "wait..." :  "Start Chatting" }
         </Button>
       </Stack>
     </Center>

@@ -1,9 +1,9 @@
-import { Account, Client as Appwrite, Databases } from "appwrite";
+import { Account, Client , Databases } from "appwrite";
 require("dotenv").config();
 
-export const appwrite = new Appwrite();
+export const appwrite = new Client();
 appwrite
-  .setEndpoint("https://cloud.appwrite.io/v1")
+  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_API_ENDPOINT)
   .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
 
 export const database = new Databases(appwrite, process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID);
