@@ -1,5 +1,9 @@
 "use client";
+
 import { FormControl, Input, Button, Box, Flex, Text, Container, Center } from "@chakra-ui/react";
+
+import { FormControl, Input, Button, Box, Flex, Text } from "@chakra-ui/react";
+
 import { useState, useEffect } from "react";
 import chatService from "@/appwrite/chatService";
 import userAuth from "@/appwrite/authentication";
@@ -56,9 +60,10 @@ export default function ChatComponent() {
       position="relative"
       height="74vh"
       overflowY="auto"
+      // maxW="100vw"
       boxSizing="border-box"
     >
-      {user && (
+  {user && (
         <>
           {messages.map((message) => (
             <Flex
