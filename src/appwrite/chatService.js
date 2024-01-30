@@ -48,7 +48,6 @@ class ChatService {
             this.setMessages(['no messages available']);
         }
 
-        console.log(allDocuments);
     } catch (error) {
         console.error(error);
     }
